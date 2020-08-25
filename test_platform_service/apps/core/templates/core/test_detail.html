@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="jumbotron">
+      <h1 class="display-4">{{ test.name }}</h1>
+      <p class="lead">{{ test.description}}</p>
+      <hr class="my-4">
+        <p>Количество прохождений: {{ test.num_of_passes }}</p>
+        <p>Дата создания: {{ test.date_created }}</p>
+        {% if test.author%}
+        <p>Аввтор теста: {{ test.author }}</p>
+        {% endif %}
+      <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{% url 'pass_the_test' test.pk %}" role="button">Пройти тест</a>
+      </p>
+    </div>
+{% endblock %}

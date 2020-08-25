@@ -1,0 +1,6 @@
+{% autoescape off %}
+    Привет, {{ user.username }}
+    Перейди по ссылке снизу чтобы активировать свой аккаунт
+
+    http://{{ domain }}{% url 'activate' uid token%}
+{% endautoescape %}

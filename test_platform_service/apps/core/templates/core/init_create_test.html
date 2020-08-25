@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <form action="{% url 'test_creation_complete' %}" method="get" >
+            {{ form }}
+            <button type="submit" class="btn btn-primary ml-2">Продолжить</button>
+        </form>
+    </div>
+{% endblock %}

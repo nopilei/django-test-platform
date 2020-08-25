@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    {% include 'messages_and_validation.html' %}
+
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-4 border-right border-dark">
+                <div class="card " style="width: 18rem;">
+                  <div class="card-body">
+                      <p><img src="{{ request.user.photo.url }}" class="img-fluid" alt=""></p>
+                  </div>
+                    <div class="mt-4">
+                        <p>Количество созданных тестов: {{ request.user.tests.count }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <form action="{% url 'profile_configuration' %}" enctype="multipart/form-data" method="post" class="table table-striped">
+                    {% csrf_token %}
+                    <table class="table table-striped">
+                        {{ form.as_table }}
+                    </table>
+                    <button type="submit" class="btn btn-success">Сохранить изменения</button>
+                </form>
+            </div>
+    </div>
+    <div class="row border-top border-dark">
+        <a href="{% url 'test_create'%}" class="btn btn-primary col-md-12 mt-3">Создать тест</a>
+    </div>
+</div>
+{% endblock %}

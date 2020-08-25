@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.level_tag }}" id="messages">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% if test_form.errors %}
+    {% for field in test_form %}
+    <div class="row">
+        <div class="alert alert-primary" role="alert" id="errors">
+            {{ field.errors|linebreaksbr }}
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+
+    <form action="{% url 'test_creation_complete' %}" method="post">
+        <input type="hidden" value="{{ num_of_questions }}" name="num_of_questions">
+        {% csrf_token %}
+
+        <div class="container">
+            {{ test_form.as_p }}
+        </div>
+        <hr>
+
+        {{ question_formset.management_form }}
+
+        {% if question_formset.non_form_errors %}
+            <div class="row">
+                <div class="alert alert-primary" role="alert" id="errors">
+                    {{ question_formset.non_form_errors }}
+                </div>
+            </div>
+        {% endif %}
+
+        {% for question,answer in questions_and_answers.items %}
+            {{ question}}
+            {% if answer.non_form_errors %}
+                <div class="row">
+                    <div class="alert alert-primary" role="alert" id="errors">
+                        {{ answer.non_form_errors }}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="container mt-2">
+                {{ answer.management_form }}
+                {% for form in answer %}
+                    <p>{{ form }}</p>
+                {% endfor %}
+            </div>
+            <hr>
+        {% endfor %}
+    <button class="btn btn-primary ml-3" type="submit">Создать</button>
+    </form>
+{% endblock %}
+

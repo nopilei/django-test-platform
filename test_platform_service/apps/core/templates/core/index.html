@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.level_tag }}" id="messages">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="container text-center row">
+        {% if not filter.qs %}
+            <p>Сейчас в базе нет тестов или по запросу ничего не найдено</p>
+        {% else %}
+        <form method="get" class="col-md-3">
+            <h1>Фильтр</h1>
+            {{ filter.form.as_p }}
+            <button type="submit" class="btn btn-primary">Отфильтровать</button>
+         </form>
+            <div class="col-md-9">
+            {% for test in filter.qs %}
+                <div class="jumbotron">
+                  <h1 class="display-4">{{ test.name }}</h1>
+                  <p class="lead">{{ test.description|truncatewords:20 }}</p>
+                  <hr class="my-4">
+                  <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="{% url 'test_detail' test.pk %}" role="button">Подробнее</a>
+                  </p>
+                </div>
+            {% endfor %}
+            </div>
+    {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.level_tag }}" id="messages">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <form action="{% url 'pass_the_test' test.pk%}" method="post">
+    {% csrf_token %}
+    <div class="container">
+        <ul class="list-group">
+        {% for question in test.questions.all %}
+          <h1 class="list-group-item text-center">{{ forloop.counter  }}. {{ question }} </h1>
+            <div class="jumbotron">
+                {% for answer in question.answers.all %}
+                    <div class="alert alert-dark text-center" role="alert">
+                        {{ forloop.counter }}. {{ answer }}
+                    </div>
+                {% endfor %}
+            <hr class="my-4">
+            {% for answer in question.answers.all %}
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" required type="radio" name="{{ question.pk }}" id="{{ answer.pk }}" value="{{ answer.pk }}">
+                  <label class="form-check-label" for="{{ answer.pk }}">{{ forloop.counter }}</label>
+                </div>
+            {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Далее</button>
+        </ul>
+    </div>
+    </form>
+{% endblock %}
